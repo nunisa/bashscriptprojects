@@ -1,0 +1,189 @@
+#!/bin/bash
+#Author: Monjit Nunisa, Software Engineer at http://www.freshersworld.com
+#Script to clear dynamic assets in Yii Framework
+targetdir=$1
+homeDir=$(echo $HOME)
+pwDir=$(echo $PWD)
+myWorkspace=$(echo "WorkSpace-Monjit")
+firstProject=$(echo "VM_CORP_OLD")
+secondProject=$(echo "DEV_CORP")
+assetsFolder=$(echo "assets")
+firstProjectAssetsDir=$(echo "/home/fw66/Documents/WorkSpace-Monjit/VM_CORP_OLD/assets")
+secondProjectAssetsDir=$(echo "/home/fw66/Documents/WorkSpace-Monjit/DEV_CORP/assets")
+firstProjectAssets=$(echo "/home/fw66/Documents/WorkSpace-Monjit/VM_CORP_OLD/assets/*")
+secondProjectAssets=$(echo "/home/fw66/Documents/WorkSpace-Monjit/DEV_CORP/assets/*")
+firstProjectFlag=$(echo "1")
+secondProjectFlag=$(echo "2")
+#Method to check if a substring is present in a string
+function contains() {
+    string="$1"
+    substring="$2"
+    if test "${string#*$substring}" != "$string"
+    then
+        echo "0"    # $substring is in $string
+    else
+        echo "1"    # $substring is not in $string
+    fi
+}
+#Reading the value returned by contains method
+returnWorkspaceFlag=$(contains $pwDir $myWorkspace)
+returnFirstProjectFlag=$(contains $pwDir $firstProject)
+returnSecondProjectFlag=$(contains $pwDir $secondProject)
+returnAssetsFlag=$(contains $pwDir $assetsFolder)
+falseFlag=$(echo "1")
+#Condition checking if this command is having any user inputs
+if [[ -z "$targetdir" ]]
+then
+    if [ "$pwDir" == "$firstProjectAssetsDir" ]
+    then
+        rm -rf $firstProjectAssets
+        echo "You have cleared assets in ${firstProject}."
+    elif [ "$pwDir" == "$secondProjectAssetsDir" ]
+    then
+        rm -rf $secondProjectAssets
+        echo "You have cleared assets in ${secondProject}."
+    elif [ "$pwDir" == "$homeDir" ]
+    then
+        echo "Please use the clearYIIassets command correctly as directed below:-"
+        echo "These are your projects:"
+        echo "Project 1: ${firstProject}"
+        echo "Project 2: ${secondProject}"
+        echo "To clear Project 1 assets, please use: clearYIIassets 1"
+        echo "To clear Project 2 assets, please use: clearYIIassets 2"
+    else
+        #Checking if PWD contains myWorkspace starts here
+        if [ "$returnWorkspaceFlag" == "$falseFlag" ]
+        then
+            #No myWorkspace, So show command guide to users
+            echo "Please use the clearYIIassets command correctly as directed below:-"
+            echo "You are currently in folder ${pwDir}"
+            echo "Please go to home folder using: cd"
+            echo "These are your projects:"
+            echo "Project 1: ${firstProject}"
+            echo "Project 2: ${secondProject}"
+            echo "To clear Project 1 assets, please use: clearYIIassets 1"
+            echo "To clear Project 2 assets, please use: clearYIIassets 2"
+        else
+            #PWD contains myWorkspace, So checking if PWD contains PROJECT 1 or PROJECT 2 not
+            #Checking for PROJECT 1
+            if [ "$returnFirstProjectFlag" != "$falseFlag" ]
+            then
+                #Contains PROJECT 1, So checking if assets folder is present in PWD
+		if [ "$returnAssetsFlag" == "$falseFlag" ]
+                then
+                    #Contains no assets folder in PWD, So show command guide to users
+                    echo "Please use the clearYIIassets command correctly as directed below:-"
+                    echo "You are currently in folder ${pwDir}"
+                    echo "Please go to you desired project assets folder, which are:-"
+                    echo "Project 1: ${firstProject}, use: cd assets"
+                    echo "Project 2: ${secondProject}, use: cd assets"
+                    echo "To clear assets, please use: clearYIIassets"
+                fi
+            fi
+            #Checking for PROJECT 2
+            if [ "$returnSecondProjectFlag" != "$falseFlag" ]
+            then
+                #Contains PROJECT 2, So checking if assets folder is present in PWD
+                if [ "$returnAssetsFlag" == "$falseFlag" ]
+                then
+                    #Contains no assets folder in PWD, So show command guide to users
+                    echo "Please use the clearYIIassets command correctly as directed below:-"
+                    echo "You are currently in folder ${pwDir}"
+                    echo "Please go to you desired project assets folder, which are:-"
+                    echo "Project 1: ${firstProject}, use: cd assets"
+                    echo "Project 2: ${secondProject}, use: cd assets"
+                    echo "To clear assets, please use: clearYIIassets"
+                fi
+            fi
+        fi
+        #Checking if PWD is containing myWorkspace ends here
+    fi
+else
+    if [ "$pwDir" == "$firstProjectAssetsDir" ]
+    then
+        rm -rf $firstProjectAssets
+        if [ "$targetdir" == "$firstProjectFlag" ]
+        then
+            echo "You have cleared assets in ${firstProject}."
+        else
+            echo "You have cleared assets in ${firstProject}."
+            echo "But by typing clearYIIassets ${targetdir} you have tried to clear the assets in ${secondProject}."
+            echo "Follow the rules below to clear the assets in ${secondProject}:-"
+            echo "Go to ${secondProject} by using: cd ../../DEV_FW/assets/*"
+            echo "Then, use the command: clearYIIassets"
+        fi
+    elif [ "$pwDir" == "$secondProjectAssetsDir" ]
+    then
+        rm -rf $secondProjectAssets
+        if [ "$targetdir" == "$secondProjectFlag" ]
+        then
+            echo "You have cleared assets in ${secondProject}."
+        else
+            echo "You have cleared assets in ${secondProject}."
+            echo "But by typing clearYIIassets ${targetdir} you have tried to clear the assets in ${firstProject}."
+            echo "Follow the rules below to clear the assets in ${firstProject}:-"
+            echo "Go to ${firstProject} by using: cd ../../VM_CORP_OLD/assets/*"
+            echo "Then, use the command: clearYIIassets"
+        fi
+    elif [ "$pwDir" == "$homeDir" ]
+    then
+        if [ "$targetdir" == "$firstProjectFlag" ]
+        then
+            rm -rf $firstProjectAssets
+            echo "You have cleared assets in ${firstProject}."
+        elif [ "$targetdir" == "$secondProjectFlag" ]
+        then
+            rm -rf $secondProjectAssets
+            echo "You have cleared assets in ${secondProject}."
+        else
+            echo "Please choose your Projects correctly!"
+        fi
+    else
+        #Checking if PWD is containing myWorkspace starts here
+        if [ "$returnWorkspaceFlag" == "$falseFlag" ]
+        then
+            #No myWorkspace, So show command guide to users
+            echo "Please use the clearYIIassets command correctly as directed below:-"
+            echo "You are currently in folder ${pwDir}"
+            echo "Please go to home folder using: cd"
+            echo "These are your projects:"
+            echo "Project 1: ${firstProject}"
+            echo "Project 2: ${secondProject}"
+            echo "To clear Project 1 assets, please use: clearYIIassets 1"
+            echo "To clear Project 2 assets, please use: clearYIIassets 2"
+        else
+            #PWD contains myWorkspace, So checking if PWD contains PROJECT 1 or PROJECT 2 not
+            #Checking for PROJECT 1
+            if [ "$returnFirstProjectFlag" != "$falseFlag" ]
+            then
+                #Contains PROJECT 1, So checking if assets folder is present in PWD
+                if [ "$returnAssetsFlag" == "$falseFlag" ]
+                then
+                    #Contains no assets folder in PWD, So show command guide to users
+                    echo "Please use the clearYIIassets command correctly as directed below:-"
+                    echo "You are currently in folder ${pwDir}"
+                    echo "Please go to you desired project assets folder, which are:-"
+                    echo "Project 1: ${firstProject}, use: cd assets"
+                    echo "Project 2: ${secondProject}, use: cd assets"
+                    echo "To clear assets, please use: clearYIIassets"
+                fi
+            fi
+            #Checking for PROJECT 2
+            if [ "$returnSecondProjectFlag" != "$falseFlag" ]
+            then
+                #Contains PROJECT 2, So checking if assets folder is present in PWD
+                if [ "$returnAssetsFlag" == "$falseFlag" ]
+                then
+                    #Contains no assets folder in PWD, So show command guide to users
+                    echo "Please use the clearYIIassets command correctly as directed below:-"
+                    echo "You are currently in folder ${pwDir}"
+                    echo "Please go to you desired project assets folder, which are:-"
+                    echo "Project 1: ${firstProject}, use: cd assets"
+                    echo "Project 2: ${secondProject}, use: cd assets"
+                    echo "To clear assets, please use: clearYIIassets"
+                fi
+            fi
+        fi
+        #Checking if PWD is containing myWorkspace ends here
+    fi
+fi

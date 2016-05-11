@@ -1,0 +1,122 @@
+#!/bin/bash
+#Author:Monjit Nunisa, Software Engineer at http://www.freshersworld.com
+#Script to copy file content from one file and write into another file
+#Read the file
+fileOne="/home/fw66/.thunderbird/w0tcfm06.default/Mail/mail.freshersworld-2.in/Inbox"
+backupFile="/home/fw66/bkupfile.txt"
+#Truncate the existing backup file content
+printf '%s\n%s\n' "FOLLOWING ARE THE TASK COMMITTED AND COMPLETED BY ME AT http://www.freshersworld.com SO FAR" "*******************************************************************************************************" > $backupFile
+#Date formatting for 3 parameter date string
+matchingDate=`date +'%a %b %d'`
+#Read todays date
+today=`date +'%a %b %d %T %Y'`
+#Function to read all dates
+function getFileOneContent(){
+    sed -n 's/.*From - \(.*\)/\1/p' $1
+}
+#Function to remove the duplicate entries from the backup file
+function removeDuplicate(){
+    awk '!seen[$0]++' $1 | sponge "$backupFile"
+}
+#Extract the three parameter formate date into an array
+declare -a outputDateArr
+declare -a threeFormateDateArr
+fileOneContent=$(getFileOneContent $fileOne)
+IFS=$'\n'
+outputDateArr=($(grep -n "From - " $fileOne | sed -n 's/.*From - \(.*\)/\1/p'))
+unset IFS
+lengthOfArr=$(echo "${#outputDateArr[@]}")
+counter=0
+while [ $counter -lt $lengthOfArr ]
+do
+    tempString=$(echo "${outputDateArr[$counter]}" | cut -d ' ' -f3)
+    if [[ $tempString = *[!\ ]* ]]
+    then
+        tempDateStringVal=$(echo "${outputDateArr[$counter]}" | cut -d ' ' -f1-3)
+        threeFormateDateArr[$counter]="${tempDateStringVal}"
+    else
+        tempDateStringVal=$(echo "${outputDateArr[$counter]}" | cut -d ' ' -f1-4)
+        threeFormateDateArr[$counter]="${tempDateStringVal}"
+    fi
+    ((counter++))
+done
+#Extract the unique three formate date string into an array
+typeset -i x=$(echo "${#threeFormateDateArr[@]}")
+typeset -i i=0
+typeset -i j=0
+typeset -i y=0
+declare -a uniqueThreeFormateDateArr
+while (( i < x )); do
+    (( j = i + 1 ))
+    while (( j < x )); do
+        if [ "${threeFormateDateArr[i]}" = "${threeFormateDateArr[j]}" ]; then
+            break
+        fi
+        (( j = j + 1 ))
+    done
+    if [ $j = $x ]; then
+            uniqueThreeFormateDateArr[y]="${threeFormateDateArr[i]}"
+            (( y = y + 1 ))
+    fi
+    (( i = i + 1 ))
+done
+#Count the number of each unique elements in array
+numberOfUniqueElements="${#uniqueThreeFormateDateArr[@]}"
+typeset -i m=0
+while (( m < numberOfUniqueElements ))
+do
+    duplicateCount=$(grep -o "${uniqueThreeFormateDateArr[$m]}" <<< "${threeFormateDateArr[@]}" | wc -l)
+    uniqDateStringCountArr+=($duplicateCount)
+    (( m = m + 1 ))
+done
+#Forming an associative [datestring,count] array
+typeset -i t=$(echo "${#uniqueThreeFormateDateArr[@]}")
+typeset -i p=0
+typeset -i q=0
+typeset -i r=0
+declare -A uniqueDateStringAndCountArr
+while (( p < t )); do
+    (( q = 0 ))
+    while (( q < 2 )); do
+        if [ $q = 0 ]
+        then
+            uniqueDateStringAndCountArr[$p,0]="${uniqueThreeFormateDateArr[p]}"
+        else
+            uniqueDateStringAndCountArr[$p,1]="${uniqDateStringCountArr[r]}"
+            (( r = r + 1 ))
+        fi
+        (( q = q + 1 ))
+    done
+    (( p = p + 1))
+done
+#Read the associative array and write data into a backup file
+typeset -i e=0
+typeset -i f=0
+typeset -i v=0
+typeset -i l=0
+typeset -i w=0
+while (( e < t )); do
+    (( f = 0 ))
+    (( u = 0 ))
+    while (( f < 2 )); do
+        if [ $f = 1 ]
+        then
+            (( v = f - 1 ))
+            (( l = e + 1 ))
+            (( w = t - 1 ))
+            if [ $e = $w ]
+            then
+                fileOneActivity=$(sed -n "/${uniqueDateStringAndCountArr[$e,$v]}/,/${matchingDate}/{/${uniqueDateStringAndCountArr[$e,$v]}/b;/${matchingDate}/b;p}" "$fileOne" | grep "\[monjit\]" | cut -d ' ' -f2-)
+                printf '%s\n%s\n%s\n' "Activities committed on:- ${uniqueDateStringAndCountArr[$e,$v]}" "$fileOneActivity" "//********************ENDS ${uniqueDateStringAndCountArr[$e,$v]} HERE********************//" >> "$backupFile"
+                removeDuplicate $backupFile
+            else
+                fileOneActivity=$(sed -n "/${uniqueDateStringAndCountArr[$e,$v]}/,/${uniqueDateStringAndCountArr[$l,$v]}/{/${uniqueDateStringAndCountArr[$e,$v]}/b;/${uniqueDateStringAndCountArr[$l,$v]}/b;p}" "$fileOne" | grep "\[monjit\]" | cut -d ' ' -f2-)
+                printf '%s\n%s\n%s\n' "Activities committed on:- ${uniqueDateStringAndCountArr[$e,$v]}" "$fileOneActivity" "//********************ENDS ${uniqueDateStringAndCountArr[$e,$v]} HERE********************//" >> "$backupFile"
+                removeDuplicate $backupFile
+            fi
+        fi
+        (( f = f + 1 ))
+    done
+    (( e = e + 1 ))
+done
+###############Thanks God for showering mercy on me by pouring ideas in my mind while writing this script###############

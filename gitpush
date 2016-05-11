@@ -1,0 +1,13 @@
+#!/bin/bash
+#Script to push all the files in a git initiated project
+#Author: Monjit Nunisa, Software Engineer at http://www.freshersworld.com
+#Read the user entered commit message
+commitMessage="$1"
+#Function for the group git commands
+function gitpush(){
+    git add .
+    git commit -m "$1"
+    git push -u origin master
+}
+#Calling gitpush function to stage, commit and push to remote repostiory at a time
+gitpush "$commitMessage"
