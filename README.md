@@ -18,7 +18,7 @@ h) Replace line number 109 & 113 (i.e. monjit) with <strong>yourSVNusername</str
 i) Save the file changes and make <strong>readThunderBox</strong> a globally available command by typing:- <pre><code>sudo cp readThunderBox /user/bin/</code></pre>
 j) Confirm it by typing:- <pre><code>whereis readThunderBox</code></pre> which outputs <pre><code>readThunderBox: /user/bin/readThunderBox</code></pre>
 k) That's it...!!! You are all set to get important messages in your backup file by just typing: <pre><code>readThunderBox</code></pre>
-l) Check yourBackUpFileName.txt<br><br>
+l) Check yourBackUpFileName.txt.<hr><br><br>
 <strong>2. clearYIIassets</strong><br>
 <strong>clearYIIassets</strong> clears dynamically generated assets in YII framework.<br>
 
@@ -33,11 +33,11 @@ g) Now, go to bashscriptprojects folder and open the <strong>clearYIIassets</str
 k) Save the file changes and make <strong>clearYIIassets</strong> a globally available command by typing:- <pre><code>sudo cp clearYIIassets /user/bin/</code></pre>
 l) Confirm it by typing:- <pre><code>whereis clearYIIassets</code></pre> which outputs <pre><code>clearYIIassets: /user/bin/clearYIIassets</code></pre>
 m) Change dirctory to your projects' assets directory (i.e not necessary, you can use this command from any directory). by typing:- <pre><code>cd /home/username/workspace/DEV_PROJECT_1/assets/</code></pre>
-n) That's it...!!! You are all set to clear some useless assets by just typing: <pre><code>clearYIIassets</code></pre>
+n) That's it...!!! You are all set to clear some useless assets by just typing: <pre><code>clearYIIassets</code></pre><hr>
 <strong>2. gitpush</strong><br>
 <strong>gitpush</strong> is a combo git command to push local file changes to remote repository.<br>
 
-Step by step instructions to configure <strong>gitpush</strong> on your system:-
+Step by step instructions to configure <strong>gitpush</strong> on your system:-<br>
 a) Make <strong>gitpush</strong> a globally available command by typing:- <pre><code>sudo cp gitpush /user/bin/</code></pre>
 b) Confirm it by typing:- <pre><code>whereis gitpush</code></pre> which outputs <pre><code>gitpush: /user/bin/gitpush</code></pre>
 c) That's it...!!! You are all set to push some file changes to remote github repository by just typing: <pre><code>gitpush</code></pre>
