@@ -14,7 +14,7 @@ d) Usually the mail domain with highest number (i.e. mail.domain-2.in in my case
 e) Create one backup file of any name of your choice at home directory by typing the command:- <pre><code>touch yourBackUpFileName.txt</code></pre> and your backup file location will be <pre><code>/home/username/yourBackUpFileName.txt</code></pre>
 f) Now, go to bashscriptprojects folder and open the <strong>readThunderBox</strong> file in your favourite editor and replace the line number 5 (i.e. fileOne initialization) with <pre><code>fileOne=”/home/username/.thunderbird/w0tcfm06.default/Mail/mail.domain-x.in/Inbox”</code></pre>
 g) Replace line number 6 (i.e. backupFile initialization) with <pre><code>backupFile=”/home/username/yourBackUpFile.txt”</code></pre>
-h) Replace line number 109 & 113 (i.e. monjit) with <strong>yourSVNusername</strong> 
+h) Replace line number 109 & 113 (i.e. monjit) with <strong>yourSVNusername</strong><br> 
 i) Save the file changes and make <strong>readThunderBox</strong> a globally available command by typing:- <pre><code>sudo cp readThunderBox /user/bin/</code></pre>
 j) Confirm it by typing:- <pre><code>whereis readThunderBox</code></pre> which outputs <pre><code>readThunderBox: /user/bin/readThunderBox</code></pre>
 k) That's it...!!! You are all set to get important messages in your backup file by just typing: <pre><code>readThunderBox</code></pre>
