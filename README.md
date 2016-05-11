@@ -18,7 +18,7 @@ h) Replace line number 109 & 113 (i.e. monjit) with <strong>yourSVNusername</str
 i) Save the file changes and make <strong>readThunderBox</strong> a globally available command by typing:- <pre><code>sudo cp readThunderBox /user/bin/</code></pre>
 j) Confirm it by typing:- <pre><code>whereis readThunderBox</code></pre> which outputs <pre><code>readThunderBox: /user/bin/readThunderBox</code></pre>
 k) That's it...!!! You are all set to get important messages in your backup file by just typing: <pre><code>readThunderBox</code></pre>
-l) Check yourBackUpFileName.txt.<hr><br><br>
+l) Check yourBackUpFileName.txt.<hr>
 <strong>2. clearYIIassets</strong><br>
 <strong>clearYIIassets</strong> clears dynamically generated assets in YII framework.<br>
 
